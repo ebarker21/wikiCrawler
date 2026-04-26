@@ -1,7 +1,8 @@
-import sqlite3
 import requests
 import random
 from lxml import html
+from db import init_db, insert_page, insert_link
+
 
 visited = set()
 
