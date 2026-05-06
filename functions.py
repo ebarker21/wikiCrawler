@@ -4,7 +4,7 @@ from lxml import html
 import requests
 
 web = Network()
-visited = []
+visited = {}
 
 
 def webCrawl(url):
@@ -40,7 +40,7 @@ def recursive_branch(currentURL, depth):
 
     pageData = webCrawl(currentURL)
     print(f'Currently at {pageData["title"]} (depth: {depth})')
-    visited.append(currentURL)
+    visited[currentURL] = pageData['title']
     insert_page(currentURL, pageData['title'], pageData['summary'])
 
     wikiLinks = [
@@ -60,10 +60,9 @@ def recursive_branch(currentURL, depth):
     ]
 
     for link in wikiLinks:
-        for visited_link in visited:
-            if visited_link == 'https://en.wikipedia.org' + link:
-                insert_link(currentURL, 'https://en.wikipedia.org' + link)
-                print ("found connection!")
+        if link in visited:
+            insert_link(currentURL, 'https://en.wikipedia.org' + link)
+            print ("found connection!")
         newURL = 'https://en.wikipedia.org' + link
         insert_link(currentURL, newURL)
         recursive_branch(newURL, depth + 1)
