@@ -53,7 +53,9 @@ def recursive_branch(currentURL, depth):
         and 'Special:' not in l
         and 'File:' not in l
         and 'Category' not in l
-        and 'Talk:' not in l
+        and 'Talk' not in l
+        and 'User:' not in l
+#        and 'Portal:' not in l
         and ('https://en.wikipedia.org' + l) not in visited
     ]
 
