@@ -17,8 +17,6 @@ def webCrawl(url):
     paragraphs = tree.xpath('//div[@id="mw-content-text"]//p[not(@class)][1]')
     summary = paragraphs[0].text_content().strip() if paragraphs else ""
 
-    print(title)
-
     return {
         "title": title[0] if title else "Unknown",
         "links": links,
@@ -51,8 +49,6 @@ def recursive_branch(currentURL, depth):
 
     if depth >= 2:
         return
-    
-    print(pageData['links'])
 
     wikiLinks = []
     for l in pageData['links']:
@@ -66,9 +62,7 @@ def recursive_branch(currentURL, depth):
             if url not in visited:
                 wikiLinks.append(url)
 
-    print(wikiLinks)
-
-    for link in wikiLinks:
+    for link in wikiLinks[:25]: #limit to 25 links per page
         newURL = link
         insert_link(currentURL, newURL)
         recursive_branch(newURL, depth + 1)
