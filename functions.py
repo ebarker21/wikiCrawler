@@ -20,7 +20,7 @@ def webCrawl(url):
     print(title)
 
     return {
-        "title": title[0],
+        "title": title[0] if title else "Unknown",
         "links": links,
         "summary": summary
         }
@@ -51,24 +51,24 @@ def recursive_branch(currentURL, depth):
 
     if depth >= 2:
         return
+    
+    print(pageData['links'])
 
-    wikiLinks = [
-        l for l in pageData['links']
-        if l.startswith('/wiki/')
-#         and 'Main_Page' not in l
-#         and 'Help:' not in l
-#         and 'Template:' not in l
-#         and 'Wikipedia:' not in l
-#         and 'Special:' not in l
-#         and 'File:' not in l
-#         and 'Category' not in l
-#         and 'Talk' not in l
-#         and 'User:' not in l
-#         and 'Portal:' not in l
-        and ('https://en.wikipedia.org' + l) not in visited
-    ]
+    wikiLinks = []
+    for l in pageData['links']:
+        if 'en.wikipedia.org/wiki' in l and 'disambiguation' not in l and 'File:' not in l and 'Help:' not in l and 'Special:' not in l and 'Template' not in l and 'Category:' not in l:
+            if l.startswith('//'):
+                url = 'https:' + l
+            elif l.startswith('https://'):
+                url = l
+            else:
+                continue
+            if url not in visited:
+                wikiLinks.append(url)
 
-    for link in wikiLinks[:20]: # limit to 20 links
-        newURL = 'https://en.wikipedia.org' + link
+    print(wikiLinks)
+
+    for link in wikiLinks:
+        newURL = link
         insert_link(currentURL, newURL)
         recursive_branch(newURL, depth + 1)
