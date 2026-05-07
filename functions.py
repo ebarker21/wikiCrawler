@@ -34,7 +34,7 @@ def create_web():
 
 
 def recursive_branch(currentURL, depth):
-    if depth > 2:  # Limit the depth of the recursion
+    if depth > 5:  # Limit the depth of the recursion
         return
     
     if currentURL in visited:
@@ -47,7 +47,7 @@ def recursive_branch(currentURL, depth):
     visited[currentURL] = title
     insert_page(currentURL, pageData['title'], pageData['summary'])
 
-    if depth >= 2:
+    if depth >= 5:
         return
 
     wikiLinks = []
